@@ -51,8 +51,8 @@ def create_accounts():
     account.create()
     message = account.serialize()
     # Uncomment once get_accounts has been implemented
-    # location_url = url_for("get_accounts", account_id=account.id, _external=True)
-    location_url = "/"  # Remove once get_accounts has been implemented
+    location_url = url_for("get_accounts", account_id=account.id, _external=True)
+    #location_url = "/"  # Remove once get_accounts has been implemented
     return make_response(
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
@@ -62,13 +62,44 @@ def create_accounts():
 ######################################################################
 
 # ... place you code here to LIST accounts ...
-
+@app.route("/accounts", methods=["GET"])
+def get_accounts():
+    """
+    list Accounts
+    This endpoint will list all accounts and return them
+    """
+    app.logger.info("Request to list all Accounts")
+    accounts = Account.all()
+    message = []
+    for account in accounts:
+        message.append(account.serialize())
+        
+    return make_response(
+        jsonify(message), status.HTTP_200_OK
+    )
 
 ######################################################################
 # READ AN ACCOUNT
 ######################################################################
 
 # ... place you code here to READ an account ...
+@app.route("/accounts/<id>", methods=["GET"])
+def read_account(id):
+    """
+    read an Account
+    This endpoint will return account by ID 
+    """
+    app.logger.info("Request to read an Account")
+    account= Account.find(id)
+    if account is None:
+        message = []
+        return make_response(
+            jsonify(message), status.HTTP_404_NOT_FOUND
+        )   
+    message = account.serialize()
+    return make_response(
+        jsonify(message), status.HTTP_200_OK
+    )
 
 
 ######################################################################
