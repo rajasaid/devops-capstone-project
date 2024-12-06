@@ -107,14 +107,45 @@ def read_account(id):
 ######################################################################
 
 # ... place you code here to UPDATE an account ...
-
+@app.route("/accounts/<id>", methods=["PUT"])
+def update_account(id):
+    """
+    update an Account
+    This endpoint will return account updated as requested if found or 404 not found 
+    """
+    app.logger.info("Request to update an Account")
+    found_account = Account.find(id)
+    if found_account is None:
+        message = []
+        return make_response(
+            jsonify(message), status.HTTP_404_NOT_FOUND
+        )   
+    found_account.deserialize(request.get_json())
+    found_account.update()    
+    message = found_account.serialize()
+    return make_response(
+        jsonify(message), status.HTTP_200_OK
+    )
 
 ######################################################################
 # DELETE AN ACCOUNT
 ######################################################################
 
 # ... place you code here to DELETE an account ...
-
+@app.route("/accounts/<id>", methods=["DELETE"])
+def delete_account(id):
+    """
+    delete an Account
+    This endpoint will return after deleting an account if it exist  
+    """
+    app.logger.info("Request to delete an Account")
+    found_account = Account.find(id)
+    if found_account is not None:
+        found_account.delete()    
+        message = []
+        return make_response(
+            jsonify(message), status.HTTP_204_NO_CONTENT
+        )
 
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S
