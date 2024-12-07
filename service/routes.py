@@ -141,7 +141,7 @@ def delete_account(id):
     app.logger.info("Request to delete an Account")
     found_account = Account.find(id)
     if found_account is not None:
-        found_account.delete()    
+        found_account.delete()
         message = []
         return make_response(
             jsonify(message), status.HTTP_204_NO_CONTENT
