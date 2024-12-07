@@ -89,7 +89,7 @@ def read_account(id):
     This endpoint will return account by ID
     """
     app.logger.info("Request to read an Account")
-    account= Account.find( id )
+    account = Account.find(id)
     if account is None:
         message = []
         return make_response(
