@@ -52,7 +52,7 @@ def create_accounts():
     message = account.serialize()
     # Uncomment once get_accounts has been implemented
     location_url = url_for("get_accounts", account_id=account.id, _external=True)
-    #location_url = "/"  # Remove once get_accounts has been implemented
+    # location_url = "/"  # Remove once get_accounts has been implemented
     return make_response(
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
@@ -61,7 +61,7 @@ def create_accounts():
 # LIST ALL ACCOUNTS
 ######################################################################
 
-# ... place you code here to LIST accounts ...
+
 @app.route("/accounts", methods=["GET"])
 def get_accounts():
     """
@@ -73,7 +73,6 @@ def get_accounts():
     message = []
     for account in accounts:
         message.append(account.serialize())
-        
     return make_response(
         jsonify(message), status.HTTP_200_OK
     )
@@ -82,12 +81,12 @@ def get_accounts():
 # READ AN ACCOUNT
 ######################################################################
 
-# ... place you code here to READ an account ...
+
 @app.route("/accounts/<id>", methods=["GET"])
 def read_account(id):
     """
     read an Account
-    This endpoint will return account by ID 
+    This endpoint will return account by ID
     """
     app.logger.info("Request to read an Account")
     account= Account.find(id)
@@ -106,12 +105,12 @@ def read_account(id):
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
 
-# ... place you code here to UPDATE an account ...
+
 @app.route("/accounts/<id>", methods=["PUT"])
 def update_account(id):
     """
     update an Account
-    This endpoint will return account updated as requested if found or 404 not found 
+    This endpoint will return account updated as requested if found or 404 not found
     """
     app.logger.info("Request to update an Account")
     found_account = Account.find(id)
@@ -119,9 +118,9 @@ def update_account(id):
         message = []
         return make_response(
             jsonify(message), status.HTTP_404_NOT_FOUND
-        )   
+        )
     found_account.deserialize(request.get_json())
-    found_account.update()    
+    found_account.update()
     message = found_account.serialize()
     return make_response(
         jsonify(message), status.HTTP_200_OK
@@ -131,12 +130,12 @@ def update_account(id):
 # DELETE AN ACCOUNT
 ######################################################################
 
-# ... place you code here to DELETE an account ...
+
 @app.route("/accounts/<id>", methods=["DELETE"])
 def delete_account(id):
     """
     delete an Account
-    This endpoint will return after deleting an account if it exist  
+    This endpoint will return after deleting an account if it exist
     """
     app.logger.info("Request to delete an Account")
     found_account = Account.find(id)
