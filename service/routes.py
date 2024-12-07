@@ -89,12 +89,12 @@ def read_account(id):
     This endpoint will return account by ID
     """
     app.logger.info("Request to read an Account")
-    account= Account.find(id)
+    account= Account.find( id )
     if account is None:
         message = []
         return make_response(
             jsonify(message), status.HTTP_404_NOT_FOUND
-        )   
+        )
     message = account.serialize()
     return make_response(
         jsonify(message), status.HTTP_200_OK
