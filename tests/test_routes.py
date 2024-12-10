@@ -190,8 +190,7 @@ class TestAccountService(TestCase):
         non_valid_id = created_id + 100
         READ_URL = BASE_URL + f"/{non_valid_id}"
         not_found_response = self.client.get(READ_URL)
-        self.assertEqual(not_found_response.status_code, 
-        status.HTTP_404_NOT_FOUND)
+        self.assertEqual(not_found_response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_update_account(self):
         """It should update an Account"""
@@ -220,7 +219,7 @@ class TestAccountService(TestCase):
         self.assertEqual(updated_account["address"], update_account.address)
         self.assertEqual(updated_account["phone_number"], update_account.phone_number)
         self.assertEqual(updated_account["date_joined"], str(update_account.date_joined))
-    
+
     def test_update_notfound_account(self):
         """It should update an non-existing Account"""
         account = AccountFactory()
@@ -240,7 +239,7 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
         self.assertEqual(update_resp.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_delete_account(self):
         """It should delete an Account"""
         account = AccountFactory()
@@ -253,7 +252,6 @@ class TestAccountService(TestCase):
         created_account = response.get_json()
         created_id = created_account["id"]
         DELETE_URL = BASE_URL + "/{}".format(created_id)
-        
         delete_resp = self.client.delete(
             DELETE_URL
         )
@@ -265,7 +263,7 @@ class TestAccountService(TestCase):
             READ_URL
         )
         self.assertEqual(read_resp.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_security_headers(self):
         """It should return security headers"""
         response = self.client.get('/', environ_overrides=HTTPS_ENVIRON)
@@ -278,11 +276,10 @@ class TestAccountService(TestCase):
         }
         for key, value in headers.items():
             self.assertEqual(response.headers.get(key), value)
-    
+
     def test_cors_security(self):
         """It should return a CORS header"""
         response = self.client.get('/', environ_overrides=HTTPS_ENVIRON)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # Check for the CORS header
-        self.assertEqual(response.headers.get('Access-Control-Allow-Origin'),'*')
-
+        self.assertEqual(response.headers.get('Access-Control-Allow-Origin'), '*')
