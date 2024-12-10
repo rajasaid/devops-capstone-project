@@ -145,13 +145,12 @@ class TestAccountService(TestCase):
         new_accounts = new_response.get_json()
 
         # Check the data is correct
-        for i in range(10): 
+        for i in range(10):
             self.assertEqual(new_accounts[i]["name"], account[i].name)
             self.assertEqual(new_accounts[i]["email"], account[i].email)
             self.assertEqual(new_accounts[i]["address"], account[i].address)
             self.assertEqual(new_accounts[i]["phone_number"], account[i].phone_number)
             self.assertEqual(new_accounts[i]["date_joined"], str(account[i].date_joined))
-
 
     def test_read_account(self):
         """It should read an Account"""
@@ -169,7 +168,7 @@ class TestAccountService(TestCase):
         self.assertEqual(found_response.status_code, status.HTTP_200_OK)
         found_account = found_response.get_json()
 
-        # Check the data is correct 
+        # Check the data is correct
         self.assertEqual(found_account["id"], created_account["id"])
         self.assertEqual(found_account["name"], account.name)
         self.assertEqual(found_account["email"], account.email)
@@ -192,7 +191,7 @@ class TestAccountService(TestCase):
         READ_URL = BASE_URL + f"/{non_valid_id}"
         not_found_response = self.client.get(READ_URL)
         self.assertEqual(not_found_response.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_update_account(self):
         """It should update an Account"""
         account = AccountFactory()
@@ -220,6 +219,7 @@ class TestAccountService(TestCase):
         self.assertEqual(updated_account["address"], update_account.address)
         self.assertEqual(updated_account["phone_number"], update_account.phone_number)
         self.assertEqual(updated_account["date_joined"], str(update_account.date_joined))
+    
     def test_update_notfound_account(self):
         """It should update an non-existing Account"""
         account = AccountFactory()
@@ -284,3 +284,4 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # Check for the CORS header
         self.assertEqual(response.headers.get('Access-Control-Allow-Origin'), '*')
+        
